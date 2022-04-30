@@ -1,0 +1,42 @@
+{%extends 'base.html'%}
+{%block content%}
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v13.0" nonce="iHxHADHZ"></script>
+<form action="" method="GET">
+    <input type="text" name= 'q' placeholder="Search lists">
+    <input type="submit" value="Submit">
+</form>
+{%for list in mylists%}
+<h3>{{list.title}}</h3>
+<h3>{{list.price}}</h3>
+<h3>{{list.content}}</h3>
+{%if list.image%}
+<img src="{{list.image.url}}" alt="">
+{%endif%}
+{%if list.user.get_full_name%}
+<h3>Author: {{list.user}}</h3>
+{%endif%}
+<br>
+{%endfor%}
+
+<h3>My Page</h3>
+<div class="pagination">
+    <span class="step-links">
+        {% if mylists.has_previous %}
+            <a href="?page={{ mylists.previous_page_number }}&q={{request.GET.q}}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ mylists.number }} of {{ mylists.paginator.num_pages }}.
+        </span>
+
+        {% if mylists.has_next %}
+            <a href="?page={{ mylists.next_page_number }}&q={{request.GET.q}}">next</a>
+            <a href="?page={{ mylists.paginator.num_pages }}&q={{request.GET.q}}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+<!-- <div class="fb-comments" data-href="https://developers.facebook.com/docs/plugins/comments#configurator" data-width="" data-numposts="5"></div> -->
+
+{%endblock content%}
